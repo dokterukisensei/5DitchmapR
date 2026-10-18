@@ -1,0 +1,5 @@
+export(itch_regions)
+export(validate_itch_data)
+export(itch_prevalence)
+export(plot_itch_prevalence)
+export(plot_itch_tiles)
