@@ -14,7 +14,9 @@ The repository is named **5DitchmapR**. The internal R package name is **Ditchma
 - `validate_itch_data()` — checks required columns and binary values.
 - `itch_prevalence()` — computes region-specific affected counts and percentages.
 - `plot_itch_prevalence()` — horizontal prevalence bar chart.
-- `plot_itch_tiles()` — compact tile summary. **This is not an anatomical body silhouette.**
+- `plot_itch_tiles()` — compact tile summary.
+- `itch_anatomy_regions()` — canonical IDs for the 16 distribution categories.
+- `plot_itch_bodymap()` — schematic front/back regional map with hand/foot insets.
 - `plot_itch_anatomy()` — maps prevalence onto anatomical polygons you supply, including front/back views.
 
 ## Install
@@ -62,28 +64,17 @@ plot_itch_tiles(demo, regions)
 
 Choose the option that matches the data collection and analysis plan, and report the denominator in figure notes or the manuscript.
 
-## Anatomical map
+## Anatomical body map
 
-The package now includes `plot_itch_anatomy()`, which colors supplied anatomical polygons by regional itch prevalence. The function does **not** bundle a human-body silhouette: anatomical outlines may have licensing restrictions, and arbitrary coordinates could misrepresent the questionnaire regions.
+The package includes `plot_itch_bodymap()`, a built-in **schematic** front/back map with inset regions for palms, backs of hands/fingers, and soles. The 16 canonical categories follow the 5-D Itch Scale distribution checklist, including the clothing/bandage-contact item.
 
-Your polygon data frame must contain:
-
-- `region`: exact region-column name from `region_cols`
-- `x`, `y`: numeric polygon coordinates
-- optional `polygon_id`: ID for separate polygon pieces
-- optional `view`: e.g. `Front` and `Back`, shown in separate panels
-
-Example (replace `body_polygons` with a licensed, correctly mapped polygon dataset):
+The map is intended for region-level epidemiological visualization, not precise lesion localization. The 5-D Itch Scale is a checklist of body locations; it does not define exact anatomical boundaries for every category. Accordingly, this map must not be described as a validated clinical anatomy map. Check the category labels against the questionnaire version and data dictionary used in your study.
 
 ```r
-plot_itch_anatomy(
-  data = demo,
-  polygons = body_polygons,
-  region_cols = regions
-)
+plot_itch_bodymap(demo)
 ```
 
-Each polygon is colored by the percentage reporting itch in its linked region. Regions should be matched to the actual questionnaire/data dictionary; do not imply anatomical precision beyond the data collected. The tile chart remains a schematic summary, not an anatomical body map.
+For publication use, inspect the figure carefully and consider validating the region polygons with a dermatologist or clinical researcher familiar with the instrument. The clothing/bandage-contact category is displayed as an overlay band because it is a contact category rather than a body part.
 
 ## Citation
 
