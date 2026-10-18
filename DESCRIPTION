@@ -3,8 +3,8 @@ Title: Visualize the 5-D Itch Scale Body-Region Distribution
 Version: 0.3.0
 Authors@R: person("Marsuki", "Hardjo", role = c("aut", "cre"))
 Description: Validate binary itch-region data and create reproducible plots
-    of region-specific itch prevalence across 16 distribution choices, including a
-    schematic front/back anatomical visualization. This
+    of region-specific itch prevalence across 16 distribution choices, including
+    a schematic ggplot map and a bundled detailed SVG template for export. This
     package is an independent visualization utility and does not replace
     validated scoring or the original questionnaire.
 License: MIT + file LICENSE
