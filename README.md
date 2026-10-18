@@ -19,6 +19,29 @@ The repository is named **5DitchmapR**. The internal R package name is **Ditchma
 - `plot_itch_bodymap()` — schematic front/back regional map with hand/foot insets.
 - `plot_itch_anatomy()` — maps prevalence onto anatomical polygons you supply, including front/back views.
 
+
+## Detailed anatomical SVG template
+
+DitchmapR includes an adapted front/back anatomical SVG template based on the
+[Open Pain Illustration](https://github.com/DigitalHealthZurich/open-pain-illustration)
+project. It includes translucent overlays for broad body locations relevant to
+the 5-D Itch Scale.
+
+```r
+library(DitchmapR)
+svg_path <- itch_anatomical_template()
+browseURL(svg_path)
+```
+
+The overlay borders are **approximate schematic regions**, not validated lesion
+boundaries or an official 5-D Itch Scale body diagram. In particular, clothing
+or bandage contact is a questionnaire category rather than a discrete body
+region. The source illustration was created for clinical pain documentation;
+it has been adapted for itch-location visualization and this adaptation is not
+endorsed by the original authors. See
+[`inst/extdata/ANATOMICAL_ILLUSTRATION_ATTRIBUTION.md`](inst/extdata/ANATOMICAL_ILLUSTRATION_ATTRIBUTION.md)
+for attribution, paper citation, and CC BY 4.0 terms.
+
 ## Install
 
 Once the repository is public:
