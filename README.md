@@ -15,6 +15,7 @@ The repository is named **5DitchmapR**. The internal R package name is **Ditchma
 - `itch_prevalence()` — computes region-specific affected counts and percentages.
 - `plot_itch_prevalence()` — horizontal prevalence bar chart.
 - `plot_itch_tiles()` — compact tile summary. **This is not an anatomical body silhouette.**
+- `plot_itch_anatomy()` — maps prevalence onto anatomical polygons you supply, including front/back views.
 
 ## Install
 
@@ -61,9 +62,28 @@ plot_itch_tiles(demo, regions)
 
 Choose the option that matches the data collection and analysis plan, and report the denominator in figure notes or the manuscript.
 
-## Anatomical map extension
+## Anatomical map
 
-A genuine front/back anatomical map requires appropriately licensed anatomical polygon data and a validated mapping from questionnaire regions to polygons. This starter intentionally does not invent anatomical coordinates or imply a finer spatial resolution than the questionnaire collected. The tile chart is a schematic summary, not a body map.
+The package now includes `plot_itch_anatomy()`, which colors supplied anatomical polygons by regional itch prevalence. The function does **not** bundle a human-body silhouette: anatomical outlines may have licensing restrictions, and arbitrary coordinates could misrepresent the questionnaire regions.
+
+Your polygon data frame must contain:
+
+- `region`: exact region-column name from `region_cols`
+- `x`, `y`: numeric polygon coordinates
+- optional `polygon_id`: ID for separate polygon pieces
+- optional `view`: e.g. `Front` and `Back`, shown in separate panels
+
+Example (replace `body_polygons` with a licensed, correctly mapped polygon dataset):
+
+```r
+plot_itch_anatomy(
+  data = demo,
+  polygons = body_polygons,
+  region_cols = regions
+)
+```
+
+Each polygon is colored by the percentage reporting itch in its linked region. Regions should be matched to the actual questionnaire/data dictionary; do not imply anatomical precision beyond the data collected. The tile chart remains a schematic summary, not an anatomical body map.
 
 ## Citation
 
