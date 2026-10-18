@@ -1,6 +1,6 @@
 Package: DitchmapR
 Title: Visualize the 5-D Itch Scale Body-Region Distribution
-Version: 0.2.0
+Version: 0.3.0
 Authors@R: person("Marsuki", "Hardjo", role = c("aut", "cre"))
 Description: Validate binary itch-region data and create reproducible plots
     of region-specific itch prevalence across 16 distribution choices, including a
