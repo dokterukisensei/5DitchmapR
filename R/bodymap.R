@@ -1,8 +1,8 @@
 #' Plot a 5-D Itch Scale anatomical distribution map
 #'
-#' Uses a built-in schematic front/back body-region template aligned to the
-#' 16 distribution choices of the 5-D Itch Scale. This is a region-level
-#' visualization, not a lesion locator or a reproduction of the questionnaire.
+#' Uses a built-in schematic front/back body-region template and hand/foot
+#' insets aligned to the 16 distribution choices of the 5-D Itch Scale. This
+#' is a region-level visualization, not a lesion locator or questionnaire copy.
 #'
 #' @param data Participant-level data with binary 0/1 or logical region columns.
 #' @param region_cols Named vector mapping the 16 canonical region IDs to the
@@ -63,7 +63,12 @@ plot_itch_bodymap <- function(data, region_cols = itch_anatomy_regions(),
     poly("lower_legs","Back",c(-.22,-.17,-.12,-.07,-.02,.02,.07,.12,.17,.22,.19,.15,.10,.06,.02,-.02,-.06,-.10,-.15,-.19),c(5.92,5.60,5.20,4.65,4.20,4.20,4.65,5.20,5.60,5.92,4.00,3.55,3.30,3.22,3.20,3.20,3.22,3.30,3.55,4.00),0,4.75),
     # Contact clothing/bandage is shown as an overlay band, not a separate body part
     poly("clothing_contact","Front",c(-.25,-.24,.24,.25,.22,-.22),c(7.92,7.78,7.78,7.92,8.00,8.00),0,7.86),
-    poly("clothing_contact","Back",c(-.25,-.24,.24,.25,.22,-.22),c(7.92,7.78,7.78,7.92,8.00,8.00),0,7.86)
+    poly("clothing_contact","Back",c(-.25,-.24,.24,.25,.22,-.22),c(7.92,7.78,7.78,7.92,8.00,8.00),0,7.86),
+    # Insets for regions not reliably visible on a whole-body silhouette
+    poly("palms","Hands / feet",c(-.82,-.62,-.62,-.82),c(8.8,8.8,8.35,8.35),-.72,8.57),
+    poly("hands_back","Hands / feet",c(.62,.82,.82,.62),c(8.8,8.8,8.35,8.35),.72,8.57),
+    poly("soles","Hands / feet",c(-.82,-.62,-.62,-.82),c(3.55,3.55,3.05,3.05),-.72,3.30),
+    poly("feet_top","Hands / feet",c(.62,.82,.82,.62),c(3.55,3.55,3.05,3.05),.72,3.30)
   )
   polygons <- do.call(rbind, P)
   polygons$percent <- unname(prevalence[polygons$region_id])
@@ -92,11 +97,12 @@ plot_itch_bodymap <- function(data, region_cols = itch_anatomy_regions(),
     positions <- data.frame(
       region_id = c("head_scalp","face","chest","abdomen","back","buttocks",
                     "thighs","lower_legs","feet_top","upper_arms","forearms",
-                    "groin","clothing_contact"),
+                    "groin","clothing_contact","palms","hands_back","soles","feet_top"),
       view = c("Front","Front","Front","Front","Back","Back","Front","Front",
-               "Front","Front","Front","Front","Front"),
-      x = c(0,0,0,0,0,0,-.13,0,0,-.49,-.59,0,0),
-      y = c(9.78,9.49,8.65,7.88,8.47,7.73,6.48,4.75,3.22,8.42,7.43,7.15,7.86)
+               "Front","Front","Front","Front","Front","Hands / feet","Hands / feet",
+               "Hands / feet","Hands / feet"),
+      x = c(0,0,0,0,0,0,-.13,0,0,-.49,-.59,0,0,-.72,.72,-.72,.72),
+      y = c(9.78,9.49,8.65,7.88,8.47,7.73,6.48,4.75,3.22,8.42,7.43,7.15,7.86,8.57,8.57,3.30,3.30)
     )
     labs <- merge(labs, positions, by = c("region_id","view"), all.x = TRUE)
     labs <- labs[!is.na(labs$x), , drop = FALSE]
