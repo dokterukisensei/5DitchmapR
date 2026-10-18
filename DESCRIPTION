@@ -1,0 +1,20 @@
+Package: DitchmapR
+Title: Visualize the 5-D Itch Scale Body-Region Distribution
+Version: 0.1.0
+Authors@R: person("Marsuki", "Hardjo", role = c("aut", "cre"))
+Description: Validate binary itch-region data and create reproducible plots
+    of region-specific itch prevalence across 16 distribution choices. This
+    package is an independent visualization utility and does not replace
+    validated scoring or the original questionnaire.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports:
+    ggplot2,
+    scales
+Suggests:
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+URL: https://github.com/dokterukisensei/5DitchmapR
+BugReports: https://github.com/dokterukisensei/5DitchmapR/issues
