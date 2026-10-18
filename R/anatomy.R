@@ -35,6 +35,7 @@ plot_itch_anatomy <- function(data, polygons, region_cols = itch_regions(),
     stop("Polygon region values not found in region_cols: ",
          paste(unknown, collapse = ", "), call. = FALSE)
   }
+  polygons$.vertex_order_internal <- seq_len(nrow(polygons))
   if (!"polygon_id" %in% names(polygons)) {
     polygons$polygon_id <- as.character(polygons$region)
   }
@@ -43,6 +44,8 @@ plot_itch_anatomy <- function(data, polygons, region_cols = itch_regions(),
   prev$region <- as.character(prev$region)
   map_data <- merge(polygons, prev[, c("region", "percent", "affected", "denominator")],
                     by = "region", all.x = TRUE, sort = FALSE)
+  map_data <- map_data[order(map_data$.vertex_order_internal), , drop = FALSE]
+  map_data$.vertex_order_internal <- NULL
   map_data$view <- factor(map_data$view, levels = unique(map_data$view))
   ggplot2::ggplot(map_data, ggplot2::aes(
     x = x, y = y, group = interaction(view, polygon_id), fill = percent
