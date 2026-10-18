@@ -1099,6 +1099,13 @@
       <path id="itch-buttocks" d="M690,590 H915 V745 H690 Z" fill="#B56576"/>
       <path id="itch-thighs-back" d="M690,730 H780 V940 H690 Z M820,730 H910 V940 H820 Z" fill="#6D597A"/>
       <path id="itch-lower_legs-back" d="M690,930 H775 V1150 H690 Z M825,930 H910 V1150 H825 Z" fill="#457B9D"/>
+      <!-- Upper arms and forearms on the posterior view -->
+      <path id="itch-upper_arms-back" d="M650,210 H720 V440 H650 Z M900,210 H975 V440 H900 Z" fill="#E76F51"/>
+      <path id="itch-forearms-back" d="M620,405 H700 V665 H620 Z M930,405 H1010 V665 H930 Z" fill="#E9C46A"/>
+      <!-- Hand and foot locations are broad highlights, not precise outlines. -->
+      <path id="itch-palms" d="M95,650 H175 V755 H95 Z M410,650 H490 V755 H410 Z" fill="#F4A261"/>
+      <path id="itch-hands_back" d="M615,650 H695 V755 H615 Z M925,650 H1005 V755 H925 Z" fill="#F4A261"/>
+      <path id="itch-soles" d="M700,1120 H780 V1235 H700 Z M825,1120 H905 V1235 H825 Z" fill="#A8DADC"/>
       <!-- Clothing contact is a category overlay rather than a separate anatomical region. -->
       <path id="itch-clothing_contact" d="M210,385 H380 V620 H210 Z M665,385 H940 V620 H665 Z"
             fill="#FFFFFF" fill-opacity="0.12" stroke-dasharray="9 7"/>
