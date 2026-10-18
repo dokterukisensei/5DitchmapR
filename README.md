@@ -33,6 +33,20 @@ svg_path <- itch_anatomical_template()
 browseURL(svg_path)
 ```
 
+
+To generate a prevalence-colored copy of the detailed SVG (rather than the
+simplified ggplot map), use:
+
+```r
+svg_file <- write_itch_bodymap_svg(data)
+browseURL(svg_file)
+```
+
+You can also provide `output_file = "itch_map.svg"` to save it to a chosen
+location. The SVG overlays are broad schematic regions; clothing/bandage contact
+is shown as a separate dashed overlay. The map is intended for visualization,
+not precise lesion localization.
+
 The overlay borders are **approximate schematic regions**, not validated lesion
 boundaries or an official 5-D Itch Scale body diagram. In particular, clothing
 or bandage contact is a questionnaire category rather than a discrete body
