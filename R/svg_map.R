@@ -38,7 +38,8 @@ write_itch_bodymap_svg <- function(data, region_cols = itch_anatomy_regions(),
   template <- itch_anatomical_template()
   svg <- paste(readLines(template, warn = FALSE, encoding = "UTF-8"), collapse = "\n")
   palette <- scales::col_numeric(
-    palette = "viridis", domain = c(0, 100), na.color = "#D9D9D9"
+    palette = grDevices::colorRampPalette(c("#440154", "#21918c", "#fde725"))(101),
+    domain = c(0, 100), na.color = "#D9D9D9"
   )
   shape_region <- c(
     "head_scalp" = "head_scalp",
@@ -60,6 +61,34 @@ write_itch_bodymap_svg <- function(data, region_cols = itch_anatomy_regions(),
     replacement <- paste0("\\1", colour, "\\2")
     svg <- sub(pattern, replacement, svg, perl = TRUE)
   }
+  # Add a legend outside the original illustration canvas.
+  svg <- sub('viewBox="0 0 1077.2 1275.6"',
+             'viewBox="0 0 1450 1275.6"', svg, fixed = TRUE)
+  labels <- unname(itch_anatomy_regions()[canonical])
+  legend_rows <- vapply(seq_along(canonical), function(i) {
+    region <- canonical[[i]]
+    value <- unname(prevalence[[region]])
+    colour <- if (length(value) == 0L || is.na(value)) "#D9D9D9" else palette(value)
+    value_label <- if (length(value) == 0L || is.na(value)) "NA" else paste0(round(value), "%")
+    label <- gsub("&", "&amp;", labels[[i]], fixed = TRUE)
+    label <- gsub("<", "&lt;", label, fixed = TRUE)
+    label <- gsub(">", "&gt;", label, fixed = TRUE)
+    y <- 95 + (i - 1) * 66
+    paste0(
+      '<rect x="1090" y="', y - 19, '" width="22" height="22" rx="3" fill="',
+      colour, '" stroke="#344054" stroke-width="1"/>',
+      '<text x="1125" y="', y, '" font-family="Arial, sans-serif" font-size="18" fill="#202124">',
+      label, ' — ', value_label, '</text>'
+    )
+  }, character(1))
+  legend <- paste0(
+    '<g id="ditchmapr-legend">',
+    '<text x="1090" y="42" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#202124">Itch distribution</text>',
+    '<text x="1090" y="68" font-family="Arial, sans-serif" font-size="15" fill="#555">Participants reporting itch</text>',
+    paste(legend_rows, collapse = ""),
+    '</g>'
+  )
+  svg <- sub("</svg>", paste0(legend, "</svg>"), svg, fixed = TRUE)
   dir.create(dirname(output_file), recursive = TRUE, showWarnings = FALSE)
   writeLines(svg, output_file, useBytes = TRUE)
   invisible(normalizePath(output_file, mustWork = TRUE))
