@@ -23,22 +23,22 @@ denominator_method <- "available" # "available" or "all"
 # Map package's canonical region IDs to the EXACT Excel column names.
 # Replace the example names on the right with your actual spreadsheet headers.
 region_columns <- c(
-  head_scalp       = "itch_head_scalp",
-  face             = "itch_face",
-  chest            = "itch_chest",
-  abdomen          = "itch_abdomen",
-  back             = "itch_back",
-  buttocks         = "itch_buttocks",
-  thighs           = "itch_thighs",
-  lower_legs       = "itch_lower_legs",
-  feet_top         = "itch_top_of_feet",
-  soles            = "itch_soles",
-  palms            = "itch_palms",
-  hands_back       = "itch_back_of_hands",
-  forearms         = "itch_forearms",
-  upper_arms       = "itch_upper_arms",
-  clothing_contact = "itch_clothing_or_bandage_contact",
-  groin            = "itch_groin"
+  head_scalp       = "頭/頭皮",
+  face             = "顔",
+  chest            = "胸",
+  abdomen          = "腹部",
+  back             = "背中",
+  buttocks         = "おしり",
+  thighs           = "ふともも",
+  lower_legs       = "すね",
+  feet_top         = "足の甲/あしゆび",
+  soles            = "足の裏",
+  palms            = "手のひら",
+  hands_back       = "手の甲/手指",
+  forearms         = "前腕（肘から下の部分の腕）",
+  upper_arms       = "上腕（肘から肩の部分の腕）",
+  clothing_contact = "服の触れる部位",
+  groin            = "股"
 )
 
 # ---- 2. Read Excel and check column names ----
