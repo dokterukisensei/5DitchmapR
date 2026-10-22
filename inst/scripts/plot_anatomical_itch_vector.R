@@ -70,13 +70,17 @@ P <- list()
 add <- function(region, view, x, y) {
   P[[length(P) + 1L]] <<- poly(region, view, x, y)
 }
-# Head, each view uses a rounded polygon.
-ellipse <- function(cx, cy, rx, ry, n = 36) {
+# Head template. On the front view, the face is a separate overlaid region;
+# on the back view the entire head is assigned to head/scalp.
+ellipse <- function(cx, cy, rx, ry, n = 48) {
   a <- seq(0, 2*pi, length.out = n)
   tibble(x = cx + rx*cos(a), y = cy + ry*sin(a))
 }
 add("head_scalp", "Back", ellipse(0, 8.45, .34, .48)$x, ellipse(0, 8.45, .34, .48)$y)
 add("head_scalp", "Front", ellipse(4, 8.45, .34, .48)$x, ellipse(4, 8.45, .34, .48)$y)
+# Face region on the anterior view (simplified mask within the head outline).
+add("face", "Front", c(3.78,3.77,3.80,3.84,3.90,4.00,4.10,4.16,4.20,4.23,4.22,4.16,4.08,4.00,3.92,3.84,3.78),
+    c(8.48,8.36,8.24,8.16,8.11,8.09,8.11,8.16,8.24,8.36,8.48,8.54,8.57,8.58,8.57,8.54,8.48))
 
 # Back torso: shoulders, upper back, abdomen/flank area, buttocks.
 add("back", "Back", c(-.48,-.68,-.62,-.53,-.48,-.44,-.40,-.37,-.32,.32,.37,.40,.44,.48,.53,.62,.68,.48,.36,0,-.36,-.48),
@@ -166,8 +170,8 @@ key <- prev |>
                            clothing_contact = "Clothing contact", groin = "Groin"),
                          n_itch, denominator, prevalence))
 
-# Face, palms and clothing-contact remain questionnaire categories; the
-# simplified body template does not yet depict all three as distinct regions.
+# Face and palms are now represented as distinct schematic overlays. Clothing-contact
+# remains a questionnaire category rather than a unique anatomical surface.
 p <- ggplot() +
   geom_polygon(
     data = shapes,
