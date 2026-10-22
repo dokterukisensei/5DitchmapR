@@ -142,7 +142,7 @@ for (offset in c(0, 4)) {
         c(.18,.10,.10,.03,.02))
   }
 }
-shapes <- bind_rows(P)
+shapes <- bind_rows(lapply(seq_along(P), function(i) mutate(P[[i]], polygon_id = i)))
 
 # Region values; clothing contact is not a unique anatomical region, so report separately.
 shape_values <- prev |> filter(region != "clothing_contact")
@@ -166,12 +166,12 @@ key <- prev |>
                            clothing_contact = "Clothing contact", groin = "Groin"),
                          n_itch, denominator, prevalence))
 
-# Face, palms and clothing-contact are listed in the key even when no distinct
-# surface is drawn in the simplified anatomical template.
+# Face, palms and clothing-contact remain questionnaire categories; the
+# simplified body template does not yet depict all three as distinct regions.
 p <- ggplot() +
   geom_polygon(
     data = shapes,
-    aes(x = x, y = y, group = interaction(view, region, row_number()),
+    aes(x = x, y = y, group = polygon_id,
         fill = prevalence),
     colour = "white", linewidth = 0.25
   ) +
