@@ -8,7 +8,7 @@
 # Missing responses should remain NA and are excluded from that region's
 # denominator by default.
 
-# install.packages(c("readxl", "dplyr", "readr", "pak"))
+# install.packages(c("readxl", "ggplot2", "pak"))
 # pak::pak("dokterukisensei/5DitchmapR")
 
 library(readxl)
@@ -108,17 +108,20 @@ prevalence$region_label <- unname(DitchmapR::itch_anatomy_regions()[
 ])
 prevalence$percent <- round(prevalence$percent, 1)
 
-readr::write_csv(
+utils::write.csv(
   prevalence[, c("region_id", "region_label", "affected",
                  "denominator", "prevalence", "percent")],
-  file.path(output_dir, "itch_region_prevalence.csv")
+  file.path(output_dir, "itch_region_prevalence.csv"), row.names = FALSE, na = ""
 )
+
+# Data columns are now renamed to canonical IDs; map each ID to itself.
+canonical_map <- stats::setNames(names(region_columns), names(region_columns))
 
 # ---- 5. Create figure outputs ----
 # Detailed SVG template: best for editing in Illustrator/Inkscape.
 svg_path <- DitchmapR::write_itch_bodymap_svg(
   region_data,
-  region_cols = region_columns,
+  region_cols = canonical_map,
   denominator = denominator_method,
   output_file = file.path(output_dir, "5d_itch_anatomical_distribution.svg")
 )
