@@ -24,7 +24,7 @@
 # ------------------------------------------------------------
 
 required_packages <- c(
-  "dplyr", "tidyr", "purrr", "ggplot2", "sf",
+  "dplyr", "tidyr", "purrr", "ggplot2", "sf", "tibble",
   "scales", "stringr", "grid", "viridis"
 )
 
@@ -266,7 +266,18 @@ body_polygons <- bodymap %>%
   ) %>%
   dplyr::left_join(region_results, by = "region_key")
 
-mapped_max <- max(region_results$percentage, na.rm = TRUE)
+valid_region_percentages <- region_results$percentage[
+  is.finite(region_results$percentage)
+]
+
+if (length(valid_region_percentages) == 0) {
+  stop(
+    "No broad anatomical regions could be calculated. ",
+    "Check the questionnaire column names and response coding."
+  )
+}
+
+mapped_max <- max(valid_region_percentages)
 map_upper_limit <- max(40, ceiling(mapped_max / 10) * 10)
 
 # ------------------------------------------------------------
@@ -303,8 +314,19 @@ figure_S2A <- ggplot2::ggplot() +
     color = "white",
     linewidth = 0.30
   ) +
+  # Keep the polygon geometry unchanged. Only reduce the ANTERIOR heading
+  # so the two headings have more visual separation.
   ggplot2::geom_text(
-    data = view_labels,
+    data = dplyr::filter(view_labels, .data$view == "Anterior"),
+    ggplot2::aes(x = .data$label_x, y = .data$label_y, label = .data$label),
+    inherit.aes = FALSE,
+    size = 2.3,
+    fontface = "bold",
+    color = "#263746",
+    vjust = 0
+  ) +
+  ggplot2::geom_text(
+    data = dplyr::filter(view_labels, .data$view == "Posterior"),
     ggplot2::aes(x = .data$label_x, y = .data$label_y, label = .data$label),
     inherit.aes = FALSE,
     size = 3.1,
@@ -401,6 +423,13 @@ site_plot_data <- site_results %>%
       .data$n, .data$denominator, .data$percentage
     )
   )
+
+if (nrow(site_plot_data) == 0) {
+  stop(
+    "No anatomical-site prevalence values are available for S2B. ",
+    "Check the questionnaire columns and response coding."
+  )
+}
 
 chart_max <- max(site_plot_data$percentage, na.rm = TRUE)
 chart_right <- max(map_upper_limit, chart_max) + 17
